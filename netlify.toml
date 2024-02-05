@@ -1,0 +1,22 @@
+[[headers]]
+    for = "/*"
+    [headers.values]
+        Strict-Transport-Security = '''
+        max-age=63072000;
+        includeSubDomains;
+        preload'''
+[build]
+  command = "swift build -c release --disable-sandbox --enable-test-discovery"
+  publish = ".build/release"
+
+[[plugins]]
+  package = "@netlify/plugin-functions"
+  [plugins.inputs]
+    functions = "Functions"
+    node_bundler = "npm"
+    
+[[plugins]]
+  package = "@netlify/plugin-execute"
+  [plugins.inputs]
+    command = "./run-vapor.sh"
+    directory = "/opt/build/repo"
